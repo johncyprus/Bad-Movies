@@ -12,7 +12,13 @@ const db = mongoose.connection;
 mongoose.Promise = Promise;
 db.on('error', console.error.bind(console, 'Connection error:'));
 db.once('open', () => {
-  console.log('Connected to db...');
+  console.log('**** YOURE CONNECTED TO MONGO ****');
 })
+
+// const badMovieSchema = new mongoose.Schema({
+//   name: 
+// })
+
+
 
 module.exports.db = db

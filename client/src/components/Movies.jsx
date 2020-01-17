@@ -3,12 +3,20 @@ import React from 'react';
 class Movies extends React.Component {
   constructor(props) {
     super(props)
-
+    this.handleClick = this.handleClick.bind(this);
   }
 
   // Make an onClick for each list item. If the movies shown is the search results, 
   // onClick add it to the database (do it in the main app, and pass down the function)
-
+  handleClick(movie) {
+    console.log('CLICKED MOVIE:', movie);
+    if (!this.props.favorites.includes(movie.id)) {
+      this.props.saveMovie(movie);
+    } else {
+      this.props.deleteMovie(movie);
+    }
+    
+  }
   // If you're currently showing the fave list, delete the movie instead
   // You can tell which list is currently being rendered based on whether the prop "showFaves" is false (search results) or true (fave list) (within index.jsx)
 
@@ -18,10 +26,10 @@ class Movies extends React.Component {
 
         {/* Make this list dynamic! */}
 
-        {this.props.movies.map((movie, index) => {
+        {this.props.movies.map((movie) => {
           return (
 
-            <li className="movie_item" key={index}>
+            <li className="movie_item" key={movie.id}>
               <img src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} />
               <div className="movie_description">
                 <h2>{movie.title}</h2>
@@ -35,18 +43,15 @@ class Movies extends React.Component {
                     <span>{movie.vote_average.toFixed(1)}</span>
                   </div>
                 </section>
+                <button 
+                  onClick={() => {this.handleClick(movie)}}>
+                    {this.props.favorites.includes(movie.id) ? "Remove from Favorites?" : "Add to Favorites?"}
+                </button>
               </div>
             </li>
 
           )
         })}
-
-
-
-
-
-
-
 
       </ul>
     );

@@ -10,11 +10,11 @@ module.exports = {
     let genreWithId = req.query;
     apiHelpers.getBadMovies(genreWithId)
       .then(movieList => {
-        
         let formattedList = movieList.map((movie) => {
           return {
             vote_average: movie.vote_average,
             title: movie.title,
+            id: movie.id,
             release_date: movie.release_date,
             overview: movie.overview,
             poster_path: movie.poster_path
@@ -40,12 +40,12 @@ module.exports = {
 
   },
   saveMovie: (req, res) => {
-    console.log('IS CONTROLLER TRIGGERED:', req.body);  // must be an object
+    //console.log('IS CONTROLLER TRIGGERED:', req.body);  // must be an object
 
-    // invoke our 'save' function from mongo or sequel
+   movieModel.saveToDb(req, res);
 
   },
   deleteMovie: (req, res) => {
-
+    movieModel.deleteFromDb(req, res);
   }
 }

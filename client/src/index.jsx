@@ -11,7 +11,7 @@ class App extends React.Component {
   	super(props)
   	this.state = {
       movies: [],
-      favorites: [{deway: "favorites"}],
+      favorites: [],
       showFaves: false,
     };
     
@@ -44,16 +44,37 @@ class App extends React.Component {
         console.log('Error loading movies');
         throw error('Unable to load movies');
       })
-
-  
   }
 
-  saveMovie() {
+  saveMovie(movie) {
     // same as above but do something diff
+    // console.log('IS SAVE MOVIE WORKING:', movie);
+    axios.post('/save', movie)
+      .then(result => {
+        let updatedFavorites = result.data;
+        // console.log('UPDATED FAVES:', updatedFavorites)
+        this.setState({
+          favorites: updatedFavorites
+        });
+        console.log('UPDATED FAVORITES:', this.state.favorites)
+      })
+      .catch(error => {
+        console.log('Error saving movie');
+      })
   }
 
-  deleteMovie() {
+  deleteMovie(movie) {
     // same as above but do something diff
+    axios.post('/delete', movie)
+      .then(result => {
+        let updatedFavorites = result.data;
+        this.setState({
+          favorites: updatedFavorites
+        });
+        console.log('UPDATED FAVES AFTER DELETING:', updatedFavorites);
+      }).catch(error => {
+        console.error('Error deleting movie');
+      })
   }
 
   swapFavorites() {
@@ -64,13 +85,21 @@ class App extends React.Component {
   }
 
   render () {
+    // let favorited = this.state.favorites.map((movie) => {return movie.id})
+
   	return (
       <div className="app">
         <header className="navbar"><h1>Bad Movies</h1></header> 
         
         <div className="main">
           <Search swapFavorites={this.swapFavorites} showFaves={this.state.showFaves} getMovies={this.getMovies}/>
-          <Movies movies={this.state.showFaves ? this.state.favorites : this.state.movies} showFaves={this.state.showFaves}/>
+          <Movies 
+            movies={this.state.showFaves ? this.state.favorites : this.state.movies} 
+            showFaves={this.state.showFaves}
+            saveMovie={this.saveMovie}
+            deleteMovie={this.deleteMovie}
+            favorites={this.state.favorites.map((movie) => {return movie.id})}
+            />
         </div>
       </div>
     );

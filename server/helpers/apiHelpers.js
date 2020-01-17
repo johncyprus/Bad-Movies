@@ -15,7 +15,7 @@ const getBadMovies = (genreWithId) => {
     let genreId = genreWithId.id;
     let genreName = genreWithId.genre;
 
-    let url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=vote_average.asc&include_adult=false&include_video=false&page=1&vote_count.gte=100&vote_average.gte=2&with_genres=${genreId}`
+    let url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=vote_average.asc&include_adult=false&include_video=false&page=1&vote_count.gte=1000&vote_average.gte=2&with_genres=${genreId}`
     return axios.get(url)
         .then(movieList => {
             // array of movie objects

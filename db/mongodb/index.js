@@ -15,10 +15,19 @@ db.once('open', () => {
   console.log('**** YOURE CONNECTED TO MONGO ****');
 })
 
-// const badMovieSchema = new mongoose.Schema({
-//   name: 
-// })
+const badMovieSchema = new mongoose.Schema({
+  title: {type: String, unique: true},
+  vote_average: Number,
+  id: Number,
+  release_date: String,
+  overview: String,
+  poster_path: String
+})
 
+
+const BadMovie = mongoose.model('BadMovie', badMovieSchema);
 
 
 module.exports.db = db
+
+module.exports.BadMovie = BadMovie;

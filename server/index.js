@@ -72,6 +72,7 @@ app.post("/save", function(req, res) {
 
 app.post("/delete", function(req, res) {
   //remove movie from favorites into the database
+  controller.deleteMovie(req, res);
 });
 
 //***********************************************************************************************************************
